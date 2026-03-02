@@ -51,7 +51,7 @@ const Navbar = () => {
   className='w-8 h-8 flex justify-center items-center rounded-full bg-black text-white relative group cursor-pointer'
   onClick={() => setShowMenu(!showMenu)}
 >
-  {userData.name[0].toUpperCase()}
+  {userData.name}
 
   <div
     className={`absolute top-0 right-0 z-10 text-black rounded pt-10 
