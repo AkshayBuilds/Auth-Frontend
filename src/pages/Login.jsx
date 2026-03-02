@@ -9,7 +9,6 @@ import axios from "axios";
 const Login = () => {
   const [state, setstate] = useState("sign up");
   const navigate = useNavigate()
-
   const { backend_URL, setisLoggedIn, getUserData } = useContext(appContext);
 
   const [name, setName] = useState("");
@@ -25,7 +24,8 @@ const Login = () => {
             const {data} = await axios.post(backend_URL+'/auth/register', {name, email, password})
             if(data.success){
                 setisLoggedIn(true);
-                getUserData()
+                localStorage.setItem("token", data.token);
+                await getUserData();  
                 toast.success('Successfully Register')
                 navigate('/')
             }else{
@@ -35,7 +35,8 @@ const Login = () => {
             const {data} = await axios.post(backend_URL+'/auth/login', {email, password})
             if(data.success){
                 setisLoggedIn(true);
-                getUserData()
+                localStorage.setItem("token", data.token);
+                await getUserData()
                 toast.success('Login Successfully')
                 navigate('/')
             }else{

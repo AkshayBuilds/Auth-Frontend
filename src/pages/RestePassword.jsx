@@ -18,7 +18,6 @@ const RestePassword = () => {
     const [isotpsubmitted, setisotpsubmitted] = useState(false)
 
 
-
     const inputRefs = React.useRef([])
     axios.defaults.withCredentials = true
     const { backend_URL, userData, isLoggedIn, getUserData } = useContext(appContext)
@@ -48,7 +47,9 @@ const RestePassword = () => {
     const onSubmitEmail = async(e) =>{
         e.preventDefault();
         try {
-            const {data} = await axios.post(backend_URL+'/auth/send-reset-otp', {email})
+            const {data} = await axios.post(backend_URL+'/auth/send-reset-otp', {email}, {
+                headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
+            })
             data.success ? toast.success(data.message) : toast.error(data.message)
             data.success && setisemailsent(true)
 
@@ -71,6 +72,8 @@ const RestePassword = () => {
                 email,
                 otp,
                 newpass: newPassword
+            }, {
+                headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
             })
 
             data.success ? toast.success(data.message) : toast.error(data.message)

@@ -18,9 +18,10 @@ const Navbar = () => {
         try {
             axios.defaults.withCredentials = true
             const { data } = await axios.get(backend_URL+'/auth/logout')
-            
             data.success && setisLoggedIn(false)
             data.success && setUserData(false)
+            data.success && localStorage.removeItem("token")
+            data.success && toast.success(data.message)
             navigate('/')
         } catch (error) {
             toast.error(error.message)
@@ -29,7 +30,8 @@ const Navbar = () => {
 
     const sendverificationOTP = async() => {
         try {
-            const { data } =await axios.post(backend_URL+'/auth/send-verify-otp', { withCredentials:true })
+            const token = localStorage.getItem("token");
+            const { data } =await axios.post(backend_URL+'/auth/send-verify-otp', {}, { headers: { Authorization: `Bearer ${token}` } })
             if(data.success){
                 toast.success(data.message)
                 navigate('/verifyemail')
@@ -40,8 +42,6 @@ const Navbar = () => {
             toast.error(error.message)
         }
     }
-
-
     
 
   return (

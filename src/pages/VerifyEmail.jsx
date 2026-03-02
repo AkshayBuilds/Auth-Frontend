@@ -49,6 +49,8 @@ const VerifyEmail = () => {
             const { data } =await axios.post(backend_URL+"/auth/verify-otp", {
                 otp,
                 userId: userData._id
+            },{
+                    headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
             })
 
             if(data.success){
